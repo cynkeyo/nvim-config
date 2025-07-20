@@ -1,4 +1,4 @@
---[[
+--[[init
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -20,7 +20,6 @@
 =====================================================================
 
 What is Kickstart?
-
   Kickstart.nvim is *not* a distribution.
 
   Kickstart.nvim is a starting point for your own configuration.
@@ -139,10 +138,6 @@ vim.o.signcolumn = 'yes'
 -- Decrease update time
 vim.o.updatetime = 250
 
--- Map LSP hover to gh
--- set_mapping('gh', '<cmd>lua require("pretty_hover").hover()<cmd>')
-vim.api.nvim_set_keymap('n', 'gh', '<cmd>lua require("pretty_hover").hover()<cr>', { desc = 'Toggle LSP hover' })
-
 -- Decrease mapped sequence wait time
 vim.o.timeoutlen = 300
 
@@ -207,6 +202,18 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<leader>x', function()
+  vim.cmd 'w'
+  Snacks.bufdelete.delete()
+end, { desc = 'Write and close current buffer' })
+
+-- Map LazyGit to <leader>l
+vim.keymap.set('n', '<leader>l', function()
+  Snacks.lazygit.open()
+end, { desc = 'Toggle LazyGit' })
+
+-- Map LSP hover to gh
+vim.api.nvim_set_keymap('n', 'gh', '<cmd>lua require("pretty_hover").hover()<cr>', { desc = 'Toggle LSP hover' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -865,7 +872,7 @@ require('lazy').setup({
       completion = {
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = true, auto_show_delay_ms = 100 },
+        documentation = { auto_show = true, auto_show_delay_ms = 500 },
       },
       sources = {
         default = { 'lsp', 'path', 'snippets', 'lazydev' },
