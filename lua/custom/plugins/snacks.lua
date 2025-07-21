@@ -9,9 +9,16 @@ return {
     -- refer to the configuration section below
     bigfile = { enabled = true },
     bufdelete = { enabled = true },
-    dashboard = { enabled = true },
+    dashboard = {
+      enabled = true,
+    },
     -- explorer = { enabled = true },
-    -- indent = { enabled = true },
+    indent = {
+      enabled = true,
+      animate = {
+        enabled = false,
+      },
+    },
     lazygit = { enabled = true },
     input = { enabled = true },
     notifier = { enabled = true },

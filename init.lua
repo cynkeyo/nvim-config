@@ -21,7 +21,6 @@
 
 What is Kickstart?
   Kickstart.nvim is *not* a distribution.
-
   Kickstart.nvim is a starting point for your own configuration.
     The goal is that you can read every line of code, top-to-bottom, understand
     what your configuration is doing, and modify it to suit your needs.
@@ -690,6 +689,20 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
+        -- luau_lsp = {
+        --   platform = {
+        --     type = "roblox",
+        --   },
+        --   types = {
+        --     roblox_security_level = "PluginSecurity",
+        --   },
+        --   sourcemap = {
+        --     enabled = true,
+        --     autogenerate = true,
+        --     rojo_project_file = "default.project.json",
+        --     sourcemap_file = "sourcemap.json"
+        --   }
+        -- },
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
@@ -740,6 +753,9 @@ require('lazy').setup({
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+        automatic_enable = {
+          exclude = { 'luau_lsp' },
+        },
         automatic_installation = false,
         handlers = {
           function(server_name)
@@ -854,7 +870,36 @@ require('lazy').setup({
         -- <c-k>: Toggle signature help
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
-        ['<Tab>'] = { 'select_and_accept' },
+        -- ['<Tab>'] = cmp.mapping(function(fallback)
+        --   if cmp.visible() then
+        --     cmp.select_next_item()
+        --   elseif luasnip.expand_or_locally_jumpable() then
+        --     luasnip.expand_or_jump()
+        --   else
+        --     fallback()
+        --   end
+        -- end, { 'i', 's' }),
+        -- ['<S-Tab>'] = cmp.mapping(function(fallback)
+        --   if cmp.visible() then
+        --     cmp.select_prev_item()
+        --   elseif luasnip.locally_jumpable(-1) then
+        --     luasnip.jump(-1)
+        --   else
+        --     fallback()
+        --   end
+        -- end, { 'i', 's' }),
+        -- ['<Tab>'] = { 'select_and_accept' },
+        ['<Tab>'] = {
+          function(cmp)
+            if cmp.snippet_active() then
+              return cmp.accept()
+            else
+              return cmp.select_and_accept()
+            end
+          end,
+          'snippet_forward',
+          'fallback',
+        },
         ['<C-k>'] = { 'select_prev' },
         ['<C-j>'] = { 'select_next' },
         preset = 'default',
