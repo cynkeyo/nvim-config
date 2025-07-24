@@ -706,6 +706,53 @@ require('lazy').setup({
         -- gopls = {},
         -- pyright = {},
         rust_analyzer = {},
+        -- luau_lsp = {
+        --   platform = {
+        --     type = 'roblox',
+        --   },
+        --   sourcemap = {
+        --     enabled = true,
+        --     autogenerate = true,
+        --     rojo_path = 'rojo',
+        --     rojo_project_file = 'default.project.json',
+        --     include_non_scripts = true,
+        --     sourcemap_file = 'sourcemap.json',
+        --     ---@type string[]?
+        --     generator_cmd = nil,
+        --   },
+        --   types = {
+        --     ---@type string[]
+        --     definition_files = {},
+        --     ---@type string[]
+        --     documentation_files = {},
+        --     ---@type luau-lsp.RobloxSecurityLevel
+        --     roblox_security_level = 'PluginSecurity',
+        --   },
+        --   fflags = {
+        --     enable_by_default = false,
+        --     enable_new_solver = false,
+        --     sync = true,
+        --     ---@type table<string, string>
+        --     override = {},
+        --   },
+        --   plugin = {
+        --     enabled = false,
+        --     port = 3667,
+        --   },
+        --   server = {
+        --     path = 'luau-lsp',
+        --   },
+        --   settings = {
+        --     ['luau-lsp'] = {
+        --       completion = {
+        --         imports = {
+        --           enabled = true,
+        --         },
+        --         autocompleteEnd = true,
+        --       },
+        --     },
+        --   },
+        -- },
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -869,25 +916,17 @@ require('lazy').setup({
         -- <c-k>: Toggle signature help
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
-        -- ['<Tab>'] = cmp.mapping(function(fallback)
-        --   if cmp.visible() then
-        --     cmp.select_next_item()
-        --   elseif luasnip.expand_or_locally_jumpable() then
-        --     luasnip.expand_or_jump()
-        --   else
-        --     fallback()
-        --   end
-        -- end, { 'i', 's' }),
-        -- ['<S-Tab>'] = cmp.mapping(function(fallback)
-        --   if cmp.visible() then
-        --     cmp.select_prev_item()
-        --   elseif luasnip.locally_jumpable(-1) then
-        --     luasnip.jump(-1)
-        --   else
-        --     fallback()
-        --   end
-        -- end, { 'i', 's' }),
-        -- ['<Tab>'] = { 'select_and_accept' },
+        ['<CR>'] = {
+          function(cmp)
+            if cmp.snippet_active() then
+              return cmp.accept_and_enter()
+            else
+              return cmp.select_accept_and_enter()
+            end
+          end,
+          'snippet_forward',
+          'fallback',
+        },
         ['<Tab>'] = {
           function(cmp)
             if cmp.snippet_active() then
@@ -1018,7 +1057,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'rust', 'regex', 'luau' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'rust', 'regex' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
