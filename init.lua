@@ -202,9 +202,8 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 vim.keymap.set('n', '<leader>x', function()
-  vim.cmd 'w'
   Snacks.bufdelete.delete()
-end, { desc = 'Write and close current buffer' })
+end, { desc = 'Close current buffer' })
 
 -- Map LazyGit to <leader>l
 vim.keymap.set('n', '<leader>l', function()
@@ -1019,7 +1018,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'rust', 'regex' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'rust', 'regex', 'luau' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -1089,3 +1088,18 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+-- vim.lsp.config('luau-lsp', {
+--   settings = {
+--     ['luau-lsp'] = {
+--       completion = {
+--         imports = {
+--           enabled = true,
+--         },
+--         autocompleteEnd = {
+--           enabled = true,
+--         },
+--       },
+--     },
+--   },
+-- })
